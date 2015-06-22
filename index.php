@@ -1,4 +1,34 @@
 <?php get_header()?>
+<?php $tm = getPostViews(24);?>
+<?php $meta = get_field('meta' , 'options');?>
+
+<div class="underbar navbar-fixed-top">
+	<div class="container">
+		<div class="row">
+        	<div class="col-md-5 col-lg-5 col-sm-6 col-xs-12 col-md-offset7 col-lg-offset-7 col-sm-offset-6 ngholder">
+            
+            	<div class="col-xs-5">
+                	Energía <span>Team Chile</span>
+                    <div class="clear"></div>
+                    <span class="fa fa-thumbs-o-up fa-fw"></span> <?php echo $tm;?> de <strong><?php echo $meta;?></strong> 
+                </div>
+            	<div class="col-xs-7">
+                	<div class="hngbr">
+                    	<div class="filler"></div>
+                    </div>
+                </div>
+            	<style>
+                	<?php $fill_h = round(($tm * 245 ) / $meta , 1)?>
+					<?php $filled = round(($tm * 397 ) / $meta , 1)?>
+                
+					
+					.hngbr .filler.fll{ width:<?php echo $fill_h.'px;'?>; transition:all 1s ease-in}
+					.barr  .filled.fll{ height:<?php echo $filled.'px;'?>; transition:all 1s ease-in}
+                </style>
+            </div>
+        </div>
+	</div>
+</div>
 
 <script type="text/javascript">
 jQuery(document).ready(function($) {
@@ -65,13 +95,14 @@ jQuery(document).ready(function($) {
             <ul class="carro">
             	
                 <?php $dc = 0;?>
-                <?php $tm = getPostViews(24);?>
+                
 				<?php foreach($team as $deportista):?>
                 <?php $dc++?>
                 
-                <li class="col-md-20 sportman">
+                <li class="col-md-20 sportman" style="height:200px">
                     <h4><?php echo $deportista->post_title?></h4>
                     <div class="clear"></div>
+                    <?php /* ?>
                     <div class="bar bar-ver izq">
                         
                         <?php 
@@ -82,7 +113,8 @@ jQuery(document).ready(function($) {
                         <?php //$barra = 100*$percent?>
                         <div class="barra" style="height:<?php echo $percent?>px; margin-top:<?php echo 165-$percent;?>px"></div>
                     </div>
-                    <div class="der infod">
+                    <?php */ ?>
+                    <div class="infod">
                         
                         <?php echo get_the_post_thumbnail($deportista->ID , 'mini' , array('class' => 'img-responsive aligncenter'))?>
                         <div style="text-align:center">
@@ -115,11 +147,14 @@ jQuery(document).ready(function($) {
                 <p>Asperiores, impedit, minus, quis, voluptatem nam aliquam in commodi culpa dolorem officia eius doloribus iusto modi. Recusandae, quos, natus aperiam eligendi eum excepturi cumque molestias aut assumenda qui autem aspernatur.</p>
                 
             </div>
-        	<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            	<div class="nrg-bar">
-                	
+        	<div class="col-md-2 col-lg-1 col-sm-2 col-xs-10 col-esp">
+            	
+                <div class="barr">
+                    <div class="filled"></div>
                 </div>
-                <div class="globe">
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-10 col-xs-10">
+            	<div class="globe">
                 	<img src="<?php echo get_bloginfo('template_url')?>/images/thumb.png" alt="">
                 	<span><?php echo $tm?></span>
                     dieron su like energía

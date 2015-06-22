@@ -18,6 +18,11 @@ add_filter('image_size_names_choose', 'my_image_sizes');
 add_post_type_support('page', 'excerpt');
 ;?>
 <?php 
+if(is_single()){
+	add_filter( 'show_admin_bar', '__return_false' );
+}
+?>
+<?php 
 /* Add support for wp_nav_menu() */
 function register_my_menu() {
 	register_nav_menu( 'primary', 'Menú principal');

@@ -11,6 +11,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=0.75 , minimum-scale=1.0 ,  maximum-scale=1.0">
 
+<meta property="fb:app_id" content="1659876854231643" />
+
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
@@ -32,100 +34,215 @@
 <script>
 jQuery(window).load(function() {
 	jQuery("#loader-wrapper").fadeOut("slow");
+	jQuery('.hngbr .filler').delay(2000).addClass('fll');
+	
+	<?php if(is_singular()){?>
+	jQuery('.barr  .filled').delay(2000).addClass('fll');
+	jQuery('.total').delay(2000).addClass('up');
+	<?php }?>
+	
 })
 </script>
 
 <!-- RRSS Shares -->
+<?php /* ?>
 <script>
     window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
 </script>
-
+<?php  */?>
 <?php if(!is_single()){?>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
+
+<script>/* (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3&appId=1659876854231643";
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.2&appId=1659876854231643";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+}(document, 'script', 'facebook-jssdk')); */</script>
 <?php }?>
 
-<?php if(is_single()){?>
+<?php if(is_single() || is_page(24)){?>
 <script type="text/javascript">
 Shadowbox.init();
 </script>
 
-
 <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1659876854231643',
-      xfbml      : true,
-      version    : 'v2.3'
-    });
-
-	function checkLoginState() {
+	function statusChangeCallback(response) {
+    //console.log('statusChangeCallback');
+    //console.log(response);
+	
+    if (response.status === 'connected') {
+      //testAPI();
+	  modalUpper();
+	  
+	  FB.api('/me/picture?redirect=false&width=300&height=300&type=large', function(data) {
+		  console.log(data.data);
+		  //var dataForm = document.getElementById('user-foto-fb');
+		  Cookies.set('userpic', data.data.url);
+		  //var welcomeBlock = document.getElementById('pgimage');
+		  //welcomeBlock.setAttribute('src' , data.data.url);
+		  //dataForm.setAttribute('value' , data.data.url);
+	  });
+	  
+	  function postToFeed(title, desc, url, image) {
+		  
+		  
+		  FB.ui(
+		  {
+			method: 'feed',link: 'https://facebook.com/ipchile', picture: image,name: title,description: desc
+		  },
+		  // callback
+		  function(response) {
+			if (response && !response.error_code) {
+			  alert('Posting completed.');
+			} else {
+			  alert('Error while posting.');
+			}
+		  }
+		);
+		  
+	  }
+	  
+	  var fbShareBtn = document.querySelector('.fb_share');
+	  fbShareBtn.addEventListener('click', function(e) {
+		  e.preventDefault();
+		  var title = fbShareBtn.getAttribute('data-title'),
+			  desc = fbShareBtn.getAttribute('data-desc'),
+			  url = fbShareBtn.getAttribute('href'),
+			  image = fbShareBtn.getAttribute('data-image');
+		  postToFeed(title, desc, url, image);
+	  
+		  return false;
+	  });
+	  
+	  jQuery('#status').css('background-color', '#5cb85c');
+	  
+    } else if (response.status === 'not_authorized') {
+		jQuery('#status').css('background-color', '#d9534f');
+		
+		Cookies.remove('energizer');
+		Cookies.remove('inscrito');
+		Cookies.remove('userpic');
+		
+    } else {
+      jQuery('#status').css('background-color', '#f0ad4e');
+	  
+	  Cookies.remove('energizer');
+	  Cookies.remove('inscrito');
+	  Cookies.remove('userpic');
+	  
+    }
+  }
+  
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
-		});
-	  }
+    });
+  }
 
-	function onLogin(response) {
-		if (response.status == 'connected') {
-			FB.api('/me/picture?redirect=false&width=300&height=300&type=large', function(data) {
-				console.log(data.data);
-				var dataForm = document.getElementById('user-foto-fb');
-		  		var welcomeBlock = document.getElementById('pgimage');
-		  		welcomeBlock.setAttribute('src' , data.data.url);
-				dataForm.setAttribute('value' , data.data.url);
-			});
-			
-			
-			function postToFeed(title, desc, url, image) {
-				var obj = {method: 'feed',link: 'https://facebook.com/ipchile', picture: image,name: title,description: desc};
-				function callback(response) {}
-				FB.ui(obj, callback);
-			}
-			
-			var fbShareBtn = document.querySelector('.fb_share');
-			fbShareBtn.addEventListener('click', function(e) {
-				e.preventDefault();
-				var title = fbShareBtn.getAttribute('data-title'),
-					desc = fbShareBtn.getAttribute('data-desc'),
-					url = fbShareBtn.getAttribute('href'),
-					image = fbShareBtn.getAttribute('data-image');
-				postToFeed(title, desc, url, image);
-			
-				return false;
-			});
-			
-	  	}
-	}
 
-	FB.getLoginStatus(function(response) {
-	  // Check login status on load, and if the user is
-	  // already logged in, go directly to the welcome message.
-	  if (response.status == 'connected') {
-		onLogin(response);
-	  } else {
-		// Otherwise, show Login dialog first.
-		FB.login(function(response) {
-		  onLogin(response);
-		}, {scope: 'user_friends, email'});
-	  }
-	});
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : 1659876854231643,
+	status     : true, // check login status
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.3' // use version 2.2
+  });
 	
 	
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
   };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_ES/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+	
+	
+	
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('meh').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+  	
+	
+ 	function modalUpper() {
+		console.log('ya estás dentro');
+		jQuery('#fblogger').removeAttr('onclick').removeAttr('onlogin');
+		jQuery('#status').css('background-color', '#5cb85c');
+	  	jQuery('#fblogger img').attr('src' , '<?php bloginfo('template_directory')?>/images/darenergiabig-cl.png'); 
+		<?php if($_COOKIE['inscrito'] != 'si'){?>
+		jQuery('#fblogger').attr('data-target' , '#modal-step-1');
+		<?php }else{?>
+		jQuery('#fblogger').attr('data-target' , '#modal-step-2');
+		<?php }?>
+	}
+	
+	
+	function pasoDos(){
+		console.log('ya estamos inscritos, ahora a leer');
+		jQuery('#fblogger').attr('data-target' , '#modal-step-2');
+		jQuery('#modal-step-1').modal('hide');
+		jQuery('#modal-step-2').modal('show');
+		
+		
+	};
+	
+	function pasoTres(){
+		console.log('ya estamos inscritos, ahora a leer');
+		jQuery('#fblogger').attr('data-target' , '#modal-step-3');
+		jQuery('#modal-step-2').modal('hide');
+		jQuery('#modal-step-3').modal('show');
+	};
+	
+	function sHare(){
+		<?php $im = get_post_thumbnail_id('24');?>
+		<?php $ima = wp_get_attachment_image_src($im , 'full');?>
+		var picture = '<?php echo $ima[0]?>' ;
+		FB.ui(
+			 {
+			 method: 'feed',
+			 href: '<?php echo bloginfo('url')?>',
+			 picture : picture,
+			 name : '<?php echo get_the_title(24)?>',
+			 <?php $pshare = get_post(24);?>
+			 description: '<?php echo $pshare->post_excerpt?>', 
+			 }, function(response){
+				 
+				 alert('hola!');
+				 
+				 });	
+	}
+
 </script>
 
 
@@ -135,11 +252,13 @@ Shadowbox.init();
 
 <body <?php body_class()?>>
 
+<div id="fb-root"></div>
 
 <div id="loader-wrapper">
     <div id="loader"></div>
 </div>
 
+<div id="status" class="navbar-fixed-top"></div>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
