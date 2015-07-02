@@ -7,12 +7,12 @@
 		<div class="row">
         	<div class="col-md-5 col-lg-5 col-sm-6 col-xs-12 col-md-offset7 col-lg-offset-7 col-sm-offset-6 ngholder">
             
-            	<div class="col-xs-5">
+            	<div class="col-xs-4 col-esp">
                 	Energía <span>Team Chile</span>
                     <div class="clear"></div>
                     <span class="fa fa-thumbs-o-up fa-fw"></span> <?php echo $tm;?> de <strong><?php echo $meta;?></strong> 
                 </div>
-            	<div class="col-xs-7">
+            	<div class="col-xs-8 col-esp">
                 	<div class="hngbr">
                     	<div class="filler"></div>
                     </div>
@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
             <?php endforeach?>
         </div>
         <div id="hero">
-        	<img src="<?php echo get_bloginfo('template_url')?>/images/tildead.png" class="img-responsive aligncenter" alt="">
+        	<img src="<?php echo get_bloginfo('template_url')?>/images/deja-todo.png" class="img-responsive aligncenter" alt="">
             <div class="clear separator"></div>
             <div class="down" id="down">
             	<span class="fa fa-chevron-down fa-fw"></span>
@@ -71,23 +71,24 @@ jQuery(document).ready(function($) {
 	jQuery('.carro').carouFredSel({
 		responsive: true,
 		width: '100%',
-		scroll: 5,
+		scroll: 2,
 		auto:false,
 		prev: '#ante',
 		next: '#sgte',
 		pagination: "#pager",
 		 items: {
-			//width: 200,
+			width: 230,
 			//height: '50%',  //  optionally resize item-height
 			visible: {
-				min: 5,
-				max: <?php echo $tg?>
+				min: 2,
+				max: 5
 			}
 		} 
 	});
 });
 </script>
 
+<div id="losdeportistas"></div>
 <section id="energy-bars">
 	<div class="container">
     	<div class="row carrusel">
@@ -116,7 +117,7 @@ jQuery(document).ready(function($) {
                     <?php */ ?>
                     <div class="infod">
                         
-                        <?php echo get_the_post_thumbnail($deportista->ID , 'mini' , array('class' => 'img-responsive aligncenter'))?>
+                        <a href="<?php echo get_permalink($deportista->ID)?>"><?php echo get_the_post_thumbnail($deportista->ID , 'mini' , array('class' => 'img-responsive aligncenter'))?></a>
                         <div style="text-align:center">
                             <a href="<?php echo get_permalink($deportista->ID)?>"><span id="nrg-<?php echo $deportista->post_name?>" class="btn-primary btn btn-sm gv-nrg">Dar Energía</span></a>
                         </div>
@@ -142,18 +143,28 @@ jQuery(document).ready(function($) {
 		<div class="row">
         	<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
             	<h2 class="megatitle">El<span>Desafío</span></h2>
+                <div class="col-xs-3">
+                    <div class="barr hidden-md hidden-lg hidden-sm">
+                    	<div class="cantidats">
+                        	<span><?php echo $tm?></span>
+                            de <?php echo $meta?>
+                        </div>
+                        <div class="filled"></div>
+                    </div>
+                </div>
+                
                 
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores labore quae commodi id! Fugit in ducimus recusandae. Ullam, fuga, saepe voluptatem ducimus molestiae consequatur dolorem velit eligendi magnam omnis ipsa.</p>
                 <p>Asperiores, impedit, minus, quis, voluptatem nam aliquam in commodi culpa dolorem officia eius doloribus iusto modi. Recusandae, quos, natus aperiam eligendi eum excepturi cumque molestias aut assumenda qui autem aspernatur.</p>
                 
             </div>
-        	<div class="col-md-2 col-lg-1 col-sm-2 col-xs-10 col-esp">
+        	<div class="col-md-2 col-lg-1 col-sm-2 col-esp hidden-xs">
             	
                 <div class="barr">
                     <div class="filled"></div>
                 </div>
             </div>
-            <div class="col-md-3 col-lg-3 col-sm-10 col-xs-10">
+            <div class="col-md-3 col-lg-3 col-sm-4 hidden-xs">
             	<div class="globe">
                 	<img src="<?php echo get_bloginfo('template_url')?>/images/thumb.png" alt="">
                 	<span><?php echo $tm?></span>
@@ -190,7 +201,7 @@ jQuery(document).ready(function($) {
             	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, minima, quae aliquam tempora cumque cum quo similique praesentium officiis ipsum perspiciatis quaerat dolore enim sint maxime dolores quisquam. Numquam, odio.</p>
             	<p>Veritatis, quod officia temporibus ut fuga. Illo, assumenda, vero suscipit nobis at voluptatem. Aperiam, quia, accusantium, ab pariatur suscipit voluptatum rerum quidem porro dignissimos minima impedit blanditiis dolores consequatur voluptatem!</p>
             </div>
-            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-lg-4 col-sm-6 hidden-xs">
             	<img src="<?php echo get_bloginfo('template_url')?>/images/plane.png" class="plane" alt="">
             </div>
         </div>
@@ -202,18 +213,18 @@ jQuery(document).ready(function($) {
 	jQuery('#productos').carouFredSel({
 		responsive: true,
 		width: '100%',
-		scroll: 5,
+		scroll: 2,
 		auto:false,
 		prev: '#anteb',
 		next: '#sgteb',
 		height: 320,
 		pagination: "#pager",
 		 items: {
-			//width: 200,
+			width: 230,
 			//height: '50%',  //  optionally resize item-height
 			visible: {
-				min: 4,
-				max: <?php echo $tg?>
+				min: 2,
+				max: 5
 			}
 		} 
 	});

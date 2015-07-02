@@ -27,6 +27,7 @@ if(is_single()){
 function register_my_menu() {
 	register_nav_menu( 'primary', 'Menú principal');
 	register_nav_menu( 'secondary', 'Menú footer');
+	register_nav_menu( 'third', 'Menú interiores');
 }
 add_action( 'init', 'register_my_menu' );
 ?>
@@ -64,6 +65,8 @@ function deportistas_register() {
 }
 
 register_taxonomy("especialidad", array('deportista'), array("hierarchical" => true, "label" => "Especialidades", "singular_label" => "Especialidad", "rewrite" => true));
+
+register_taxonomy("ss", array('deportista'), array("hierarchical" => true, "label" => "Recorrido", "singular_label" => "Recorrido", "rewrite" => true));
 
 add_action('init', 'productos_register');
 function productos_register() {
@@ -138,9 +141,9 @@ function SuperAdmin() {
 	echo "<link href='http://fonts.googleapis.com/css?family=Open+Sans:700,300,800,400' rel='stylesheet' type='text/css'>";
 	echo '<style type="text/css">
 	body{ font-family: Open sans, helvetica neue, helvetica, arial , sans-serif}
-	.wp-admin #adminmenu, .wp-admin #adminmenuback, .wp-admin #adminmenuwrap{ background-color:#436891 !important}
-	#adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu.sub-open, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .no-js li.wp-has-current-submenu:hover .wp-submenu{background-color:#355272 !important}
-	.wp-core-ui .button-primary{background-color:#355272 !important}
+	.wp-admin #adminmenu, .wp-admin #adminmenuback, .wp-admin #adminmenuwrap{ background-color:#129dd9 !important}
+	#adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu.sub-open, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .no-js li.wp-has-current-submenu:hover .wp-submenu{background-color:#2cb3ed !important}
+	.wp-core-ui .button-primary{background-color:#2cb3ed !important}
 	</style>';
 }
 add_action('admin_head', 'SuperAdmin');

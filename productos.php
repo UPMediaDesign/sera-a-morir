@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
 	jQuery('#productos').carouFredSel({
 		responsive: true,
 		width: '100%',
-		scroll: 5,
+		scroll: 2,
 		auto:false,
 		prev: '#anteb',
 		next: '#sgteb',
@@ -15,8 +15,8 @@ jQuery(document).ready(function($) {
 			//width: 200,
 			//height: '50%',  //  optionally resize item-height
 			visible: {
-				min: 4,
-				max: <?php echo $tg?>
+				min: 2,
+				max: 5
 			}
 		} 
 	});

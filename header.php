@@ -211,7 +211,7 @@ Shadowbox.init();
 	function pasoDos(){
 		console.log('ya estamos inscritos, ahora a leer');
 		jQuery('#fblogger').attr('data-target' , '#modal-step-2');
-		jQuery('#modal-step-1').modal('hide');
+		jQuery('#modal-step-1').delay(3000).modal('hide');
 		jQuery('#modal-step-2').modal('show');
 		
 		
@@ -224,9 +224,44 @@ Shadowbox.init();
 		jQuery('#modal-step-3').modal('show');
 	};
 	
-	function sHare(){
-		<?php $im = get_post_thumbnail_id('24');?>
-		<?php $ima = wp_get_attachment_image_src($im , 'full');?>
+	<?php $im = get_post_thumbnail_id('24');?>
+	<?php $ima = wp_get_attachment_image_src($im , 'full');?>
+	
+	function pasoCuatro(){
+		console.log('ahora daremos energía, y publicaremos en facebook');
+		jQuery('#fb-root').addClass('toggled');
+		
+		var picture = '<?php echo $ima[0]?>' ;
+		FB.ui(
+			 {
+			 method: 'feed',
+			 href: '<?php echo bloginfo('url')?>',
+			 picture : picture,
+			 name : '<?php echo get_the_title(24)?>',
+			 <?php $pshare = get_post(24);?>
+			 description: '<?php echo $pshare->post_excerpt?>', 
+			 }, function(response){
+				 
+				 if (response && !response.error_code) {
+				  jQuery('#fb-root').removeClass('toggled');
+				  
+				  window.location.replace("<?php echo get_page_link(24)?>?sm=<?php echo $post->ID?>");
+				  
+				} else {
+				  jQuery('#fb-root').removeClass('toggled');
+				  
+				}
+				 
+				 //console.log('hermoso, ya dimos energía, lo publicamos en facebook, y en la siguiente lo hacemos efectivo');
+				 //alert('hola!');
+				 //window.location.replace("<?php echo get_page_link(24)?>?sm=<?php echo $post->ID?>");
+				 
+			});
+		
+	};
+	
+	/* function sHare(){
+		
 		var picture = '<?php echo $ima[0]?>' ;
 		FB.ui(
 			 {
@@ -241,7 +276,7 @@ Shadowbox.init();
 				 alert('hola!');
 				 
 				 });	
-	}
+	} */
 
 </script>
 
@@ -271,11 +306,14 @@ Shadowbox.init();
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand logo" href="<?php bloginfo('url')?>"><img src="<?php bloginfo('template_directory')?>/images/logo.png" alt="" /></a>
+              <a class="navbar-brand logo" href="<?php bloginfo('url')?>"><img src="<?php bloginfo('template_directory')?>/images/logo.png" class="img-responsive" width="205px;" alt="" /></a>
             </div>
             <div class="navbar-collapse collapse">
-              
-              <?php wp_nav_menu( array( 'container' => 'none', 'menu_class' => 'nav navbar-nav navbar-right' , 'theme_location' => 'primary' ) ); ?>
+              <?php if(is_home()){?>
+              	<?php wp_nav_menu( array( 'container' => 'none', 'menu_class' => 'nav navbar-nav navbar-right' , 'theme_location' => 'primary' ) ); ?>
+              <?php }else{?>
+              	<?php wp_nav_menu( array( 'container' => 'none', 'menu_class' => 'nav navbar-nav navbar-right' , 'theme_location' => 'third' ) ); ?>
+              <?php }?>
             	<div class="clear"></div> 
             </div><!--/.nav-collapse -->
                         
