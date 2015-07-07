@@ -12,7 +12,7 @@ jQuery(document).ready(function($) {
 		height: 320,
 		pagination: "#pager",
 		 items: {
-			//width: 200,
+			width: 200,
 			//height: '50%',  //  optionally resize item-height
 			visible: {
 				min: 2,

@@ -31,10 +31,27 @@
 <!-- scripts -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+<?php if(is_home()){?>
+<script>
+// You can avoid the document.ready if you put the script at the bottom of the page
+$(document).ready(function() {
+  // Bind to the click of all links with a #hash in the href
+  $('#menu-navegacion a[href^="#"]').click(function(e) {
+    // Prevent the jump and the #hash from appearing on the address bar
+    e.preventDefault();
+    // Scroll the window, stop any previous animation, stop on user manual scroll
+    // Check https://github.com/flesler/jquery.scrollTo for more customizability
+    $(window).stop(true).scrollTo(this.hash, {duration:1000, interrupt:true});
+  });
+});
+</script>
+<?php }?>
+
 <script>
 jQuery(window).load(function() {
 	jQuery("#loader-wrapper").fadeOut("slow");
 	jQuery('.hngbr .filler').delay(2000).addClass('fll');
+	jQuery('.hngbrx .filler').delay(2000).addClass('fll');
 	
 	<?php if(is_singular()){?>
 	jQuery('.barr  .filled').delay(2000).addClass('fll');
@@ -61,7 +78,7 @@ jQuery(window).load(function() {
 }(document, 'script', 'facebook-jssdk')); */</script>
 <?php }?>
 
-<?php if(is_single() || is_page(24)){?>
+<?php if(is_single() || is_page(24)  || is_page(78)){?>
 <script type="text/javascript">
 Shadowbox.init();
 </script>
@@ -76,7 +93,7 @@ Shadowbox.init();
 	  modalUpper();
 	  
 	  FB.api('/me/picture?redirect=false&width=300&height=300&type=large', function(data) {
-		  console.log(data.data);
+		  //console.log(data.data);
 		  //var dataForm = document.getElementById('user-foto-fb');
 		  Cookies.set('userpic', data.data.url);
 		  //var welcomeBlock = document.getElementById('pgimage');
@@ -84,38 +101,7 @@ Shadowbox.init();
 		  //dataForm.setAttribute('value' , data.data.url);
 	  });
 	  
-	  function postToFeed(title, desc, url, image) {
-		  
-		  
-		  FB.ui(
-		  {
-			method: 'feed',link: 'https://facebook.com/ipchile', picture: image,name: title,description: desc
-		  },
-		  // callback
-		  function(response) {
-			if (response && !response.error_code) {
-			  alert('Posting completed.');
-			} else {
-			  alert('Error while posting.');
-			}
-		  }
-		);
-		  
-	  }
-	  
-	  var fbShareBtn = document.querySelector('.fb_share');
-	  fbShareBtn.addEventListener('click', function(e) {
-		  e.preventDefault();
-		  var title = fbShareBtn.getAttribute('data-title'),
-			  desc = fbShareBtn.getAttribute('data-desc'),
-			  url = fbShareBtn.getAttribute('href'),
-			  image = fbShareBtn.getAttribute('data-image');
-		  postToFeed(title, desc, url, image);
-	  
-		  return false;
-	  });
-	  
-	  jQuery('#status').css('background-color', '#5cb85c');
+	  jQuery('#status').css('background-color', '#129dd9');
 	  
     } else if (response.status === 'not_authorized') {
 		jQuery('#status').css('background-color', '#d9534f');
@@ -134,9 +120,6 @@ Shadowbox.init();
     }
   }
   
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
@@ -154,23 +137,11 @@ Shadowbox.init();
     version    : 'v2.3' // use version 2.2
   });
 	
-	
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
 
-  };
+};
 
   // Load the SDK asynchronously
   (function(d, s, id) {
@@ -195,89 +166,52 @@ Shadowbox.init();
   }
   	
 	
- 	function modalUpper() {
-		console.log('ya estás dentro');
-		jQuery('#fblogger').removeAttr('onclick').removeAttr('onlogin');
-		jQuery('#status').css('background-color', '#5cb85c');
-	  	jQuery('#fblogger img').attr('src' , '<?php bloginfo('template_directory')?>/images/darenergiabig-cl.png'); 
-		<?php if($_COOKIE['inscrito'] != 'si'){?>
-		jQuery('#fblogger').attr('data-target' , '#modal-step-1');
-		<?php }else{?>
-		jQuery('#fblogger').attr('data-target' , '#modal-step-2');
-		<?php }?>
-	}
-	
-	
-	function pasoDos(){
-		console.log('ya estamos inscritos, ahora a leer');
-		jQuery('#fblogger').attr('data-target' , '#modal-step-2');
-		jQuery('#modal-step-1').delay(3000).modal('hide');
-		jQuery('#modal-step-2').modal('show');
-		
-		
-	};
-	
-	function pasoTres(){
-		console.log('ya estamos inscritos, ahora a leer');
-		jQuery('#fblogger').attr('data-target' , '#modal-step-3');
-		jQuery('#modal-step-2').modal('hide');
-		jQuery('#modal-step-3').modal('show');
-	};
-	
-	<?php $im = get_post_thumbnail_id('24');?>
-	<?php $ima = wp_get_attachment_image_src($im , 'full');?>
-	
-	function pasoCuatro(){
-		console.log('ahora daremos energía, y publicaremos en facebook');
-		jQuery('#fb-root').addClass('toggled');
-		
-		var picture = '<?php echo $ima[0]?>' ;
-		FB.ui(
-			 {
-			 method: 'feed',
-			 href: '<?php echo bloginfo('url')?>',
-			 picture : picture,
-			 name : '<?php echo get_the_title(24)?>',
-			 <?php $pshare = get_post(24);?>
-			 description: '<?php echo $pshare->post_excerpt?>', 
-			 }, function(response){
-				 
-				 if (response && !response.error_code) {
-				  jQuery('#fb-root').removeClass('toggled');
-				  
-				  window.location.replace("<?php echo get_page_link(24)?>?sm=<?php echo $post->ID?>");
-				  
-				} else {
-				  jQuery('#fb-root').removeClass('toggled');
-				  
-				}
-				 
-				 //console.log('hermoso, ya dimos energía, lo publicamos en facebook, y en la siguiente lo hacemos efectivo');
-				 //alert('hola!');
-				 //window.location.replace("<?php echo get_page_link(24)?>?sm=<?php echo $post->ID?>");
-				 
-			});
-		
-	};
-	
-	/* function sHare(){
-		
-		var picture = '<?php echo $ima[0]?>' ;
-		FB.ui(
-			 {
-			 method: 'feed',
-			 href: '<?php echo bloginfo('url')?>',
-			 picture : picture,
-			 name : '<?php echo get_the_title(24)?>',
-			 <?php $pshare = get_post(24);?>
-			 description: '<?php echo $pshare->post_excerpt?>', 
-			 }, function(response){
-				 
-				 alert('hola!');
-				 
-				 });	
-	} */
+function modalUpper() {
+	jQuery('#fblogger').removeAttr('onclick').removeAttr('onlogin');
+	jQuery('#status').css('background-color', '#5cb85c');
+	jQuery('#fblogger img').attr('src' , '<?php bloginfo('template_directory')?>/images/darenergiabig-cl.png'); 
+	<?php if($_COOKIE['inscrito'] != 'si'){?>
+	jQuery('#fblogger').attr('data-target' , '#modal-step-1');
+	<?php }else{?>
+	jQuery('#fblogger').attr('data-target' , '#modal-step-2');
+	<?php }?>
+}
 
+
+function pasoDos(){
+	jQuery('#fblogger').attr('data-target' , '#modal-step-2');
+	jQuery('#modal-step-1').delay(3000).modal('hide');
+	jQuery('#modal-step-2').modal('show');
+};
+
+function pasoTres(){
+	jQuery('#fblogger').attr('data-target' , '#modal-step-3');
+	jQuery('#modal-step-2').modal('hide');
+	jQuery('#modal-step-3').modal('show');
+};
+	
+<?php $im = get_post_thumbnail_id('24');?>
+<?php $ima = wp_get_attachment_image_src($im , 'full');?>
+function pasoCuatro(){
+	jQuery('#fb-root').addClass('toggled');
+	var picture = '<?php echo $ima[0]?>' ;
+	FB.ui({
+		 method: 'feed',
+		 href: '<?php echo bloginfo('url')?>',
+		 picture : picture,
+		 name : '<?php echo get_the_title(24)?>',
+		 <?php $pshare = get_post(24);?>
+		 description: '<div class="mts mbm _58ov">bold.</div><?php echo $pshare->post_excerpt?>', 
+		 }, function(response){
+			 if (response && !response.error_code) {
+			  jQuery('#fb-root').removeClass('toggled');
+			  window.location.replace("<?php echo get_page_link(24)?>?sm=<?php echo $post->ID?>");
+			} else {
+			  jQuery('#fb-root').removeClass('toggled');
+			}
+		});
+};
+	
 </script>
 
 
@@ -288,7 +222,7 @@ Shadowbox.init();
 <body <?php body_class()?>>
 
 <div id="fb-root"></div>
-
+<div id="top"></div>
 <div id="loader-wrapper">
     <div id="loader"></div>
 </div>

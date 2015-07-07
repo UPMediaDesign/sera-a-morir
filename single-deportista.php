@@ -15,13 +15,13 @@
 		<div class="row">
         	<div class="col-md-5 col-lg-5 col-sm-6 col-xs-12 col-md-offset7 col-lg-offset-7 col-sm-offset-6 ngholder">
             
-            	<div class="col-xs-4 col-esp">
-                	Energía <span>Team Chile</span>
+            	<div class="col-xs-3 col-esp">
+                	Energía <div class="clear"></div><span>Team Chile</span>
                     <div class="clear"></div>
                     <span class="fa fa-thumbs-o-up fa-fw"></span> <?php echo $tm;?> de <strong><?php echo $meta;?></strong> 
                 </div>
-            	<div class="col-xs-8 col-esp">
-                	<div class="hngbr">
+            	<div class="col-xs-9 col-esp">
+                	<div class="hngbrx">
                     	<div class="filler"></div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 					<?php $filled = round(($tm * 397 ) / $meta , 1)?>
                 
 					
-					.hngbr .filler.fll{ width:<?php echo $fill_h.'px;'?>; transition:all 1s ease-in}
+					.hngbrx .filler.fll{ width:<?php echo $fill_h.'px;'?>; transition:all 1s ease-in}
 					.barr  .filled.fll{ height:<?php echo $filled.'px;'?>; transition:all 1s ease-in}
                 </style>
             </div>
@@ -40,9 +40,9 @@
 
 
 
-<?php $next = get_next_post_link('%link', '<span class="dg-prev">&gt;</span>', $in_same_term = true, $excluded_terms = '', $taxonomy = 'ss'); ?>
+<?php $next = get_next_post_link('<div class="nexx">%link</div>', '<span class="dg-prev">&gt;</span><div class="nextsportman sportmanchanger">%title</div>', $in_same_term = true, $excluded_terms = '', $taxonomy = 'ss'); ?>
 
-<?php $prev = get_previous_post_link('%link', '<span class="dg-next">&gt;</span>', $in_same_term = true, $excluded_terms = '', $taxonomy = 'ss'); ?>
+<?php $prev = get_previous_post_link('<div class="prexx">%link</div>', '<span class="dg-next">&gt;</span><div class="prevsportman sportmanchanger">%title</div>', $in_same_term = true, $excluded_terms = '', $taxonomy = 'ss'); ?>
 
 <?php //var_dump($prev)?>
 
@@ -63,7 +63,8 @@
                 <?php $acciones = get_field('acciones')?>
                 <?php $accion_1 = wp_get_attachment_image_src( $acciones[0]['accion'] , 'acciones')?>
                 <?php $accion_2 = wp_get_attachment_image_src( $acciones[1]['accion'] , 'acciones')?>
-                <div class="col-md-4 col-lg-4 col-sm-10 col-xs-10">
+                <div class="col-xs-2 col-md-1 col-sm-1 hidden-lg"></div>
+                <div class="col-md-3 col-lg-4 col-sm-4 col-xs-8" style="z-index:1">
                 	<figure class="hints">
                     	
                         <style>
@@ -116,12 +117,12 @@
                     
                 </div>
                                 
-                <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                <div class="col-md-7 col-lg-8 col-sm-6 col-xs-12">
                     
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 col-esp sm-head">
                     	
                         <?php $ti = explode(' ',$post->post_title) ?>
-                        <h1><?php echo $ti[0]; echo ' <span>'.$ti[1].'</span>';?></h1>
+                        <h1><?php echo $ti[0]; echo ' <span>'.$ti[1].' '.$ti[2].'</span>';?></h1>
                         <?php $terms = wp_get_post_terms($post->ID , 'especialidad')?>
                         <?php $gico = get_field('icon' , 'especialidad_'.$terms[0]->term_id)?>
                         <?php $sico = wp_get_attachment_image_src( $gico , 'full')?>
@@ -222,17 +223,17 @@
         	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         	<div class="modal-body">
         		<h2>Dar <span>Energy Like</span></h2>
-        			<div class="col-md-7 col-lg-7 col-sm-4 hidden-xs">
+        			<div class="col-md-6 col-lg-7 col-sm-4 hidden-xs">
                         <?php $elteam_foto =  wp_get_attachment_image_src( get_field('elteam_foto' , 'options') , 'full')?>
         				<img src="<?php echo $elteam_foto[0]?>" class="img-responsive" alt="">
         			</div>
         			
                    
                 
-                <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 col-esp">
+                <div class="col-md-6 col-lg-5 col-sm-12 col-xs-12 col-esp">
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 col-esp sm-head">
-                        <h1><?php echo $ti[0]; echo ' <span>'.$ti[1].'</span>';?></h1>
-                        <h2><?php echo $terms[0]->name;?> <img src="<?php echo $sico[0]?>" alt=""></h2>
+                        <h1>TEAM <span>Chile</span></h1>
+                        <!--<h2>DEJA TODO</h2> -->
                     </div>
                     <div class="clear separator"></div>
                     
@@ -372,7 +373,8 @@ jQuery(document).ready(function($) {
 jQuery("#rut").Rut({
    format_on: 'keyup',
    validation:true,
-   on_error: function(){ alert('El rut ingresado es incorrecto'); }
+   on_error: function(){$('.wpcf7-submit').prop('disabled', true); $('#rerror').css('display' , 'inline-block')},
+   on_success: function(){$('.wpcf7-submit').prop('disabled', false); $('#rerror').css('display' , 'none')}
 })
 </script>
 

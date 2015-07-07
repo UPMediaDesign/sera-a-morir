@@ -5,7 +5,33 @@
 <div class="underbar navbar-fixed-top">
 	<div class="container">
 		<div class="row">
-        	<div class="col-md-5 col-lg-5 col-sm-6 col-xs-12 col-md-offset7 col-lg-offset-7 col-sm-offset-6 ngholder">
+        	<div class="col-md-8 col-lg-8 col-sm-12 hidden-xs col-md-offset-4 col-lg-offset-4 ngholder">
+            
+            	<div class="col-xs-3 col-esp" style="padding-right:20px">
+                	Energía <span>Team Chile</span>
+                    <div class="clear"></div>
+                    <span class="fa fa-thumbs-o-up fa-fw"></span> <?php echo $tm;?> de <strong><?php echo $meta;?></strong> 
+                </div>
+            	<div class="col-xs-9 col-esp">
+                	<div class="hngbr">
+                    	<div class="filler"></div>
+                    </div>
+                </div>
+            	<style>
+                	<?php $fill_h = round(($tm * 245 ) / $meta , 1)?>
+					<?php $fill_x = round(($tm * 555 ) / $meta , 1)?>
+					<?php $filled = round(($tm * 397 ) / $meta , 1)?>
+                
+					.hngbrx .filler.fll{ width:<?php echo $fill_h.'px;'?>; transition:all 1s ease-in}
+					.hngbr .filler.fll{ width:<?php echo $fill_x.'px;'?>; transition:all 1s ease-in}
+					.barr  .filled.fll{ height:<?php echo $filled.'px;'?>; transition:all 1s ease-in}
+					
+					
+					
+                </style>
+            </div>
+            
+            <div class="hidden-md hidden-sm hidden-lg col-xs-12 ngholder">
             
             	<div class="col-xs-4 col-esp">
                 	Energía <span>Team Chile</span>
@@ -13,19 +39,14 @@
                     <span class="fa fa-thumbs-o-up fa-fw"></span> <?php echo $tm;?> de <strong><?php echo $meta;?></strong> 
                 </div>
             	<div class="col-xs-8 col-esp">
-                	<div class="hngbr">
+                	<div class="hngbrx">
                     	<div class="filler"></div>
                     </div>
                 </div>
-            	<style>
-                	<?php $fill_h = round(($tm * 245 ) / $meta , 1)?>
-					<?php $filled = round(($tm * 397 ) / $meta , 1)?>
-                
-					
-					.hngbr .filler.fll{ width:<?php echo $fill_h.'px;'?>; transition:all 1s ease-in}
-					.barr  .filled.fll{ height:<?php echo $filled.'px;'?>; transition:all 1s ease-in}
-                </style>
+            	
             </div>
+            
+            
         </div>
 	</div>
 </div>
